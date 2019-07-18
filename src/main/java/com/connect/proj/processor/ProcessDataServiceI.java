@@ -2,14 +2,17 @@ package com.connect.proj.processor;
 
 import com.connect.proj.model.Interval;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class ProcessData {
+public class ProcessDataServiceI implements ProcessDataService{
 
     private int mergeDistance;
 
-    public ProcessData(int mergeDistance){
+    public ProcessDataServiceI(int mergeDistance){
         this.mergeDistance=mergeDistance;
     }
 
@@ -27,14 +30,14 @@ public class ProcessData {
             intervals.add(newInterval);
         }else  {
 
-           addedInterval = mergeTwoIntervals(newInterval);
+            addedInterval = mergeTwoIntervals(newInterval);
 
-           if (addedInterval != null) {
-               intervals.remove(addedInterval.get("E"));
-               intervals.add(addedInterval.get("U"));
-           } else {
-               intervals.add(newInterval);
-           }
+            if (addedInterval != null) {
+                intervals.remove(addedInterval.get("E"));
+                intervals.add(addedInterval.get("U"));
+            } else {
+                intervals.add(newInterval);
+            }
         }
 
         System.out.println("Intervals as :");
@@ -99,7 +102,7 @@ public class ProcessData {
         return null;
     }
 
-    private Interval getExactPreviousInterval(Interval existingInterval) {
+    public Interval getExactPreviousInterval(Interval existingInterval) {
         Interval preInterval=null;
 
 

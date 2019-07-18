@@ -2,7 +2,8 @@ package com.connect.proj;
 
 import com.connect.proj.model.Interval;
 import com.connect.proj.model.Record;
-import com.connect.proj.processor.ProcessData;
+import com.connect.proj.processor.ProcessDataService;
+import com.connect.proj.processor.ProcessDataServiceI;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 
@@ -19,7 +20,7 @@ public class MergeIntervalApp {
         Reader in= null;
         Record record=null;
 
-        ProcessData processData=null;
+        ProcessDataService processDataService =null;
         try {
             in = new FileReader("/home/hans/shankha/opt/file/record.csv");
             Iterable<CSVRecord> csvRecords= CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(in);
@@ -36,13 +37,13 @@ public class MergeIntervalApp {
 
                     System.out.println(record);
                     Interval interval=new Interval(record.getStart(),record.getEnd());
-                    processData=new ProcessData(7);
+                    processDataService =new ProcessDataServiceI(7);
 
                     if(AppConstant.ADDED.getAction().equalsIgnoreCase(record.getAction()))
-                        processData.addIntervals(interval);
+                        processDataService.addIntervals(interval);
 
                     if(AppConstant.REMOVED.getAction().equalsIgnoreCase(record.getAction()))
-                        processData.removeIntervals(interval);
+                        processDataService.removeIntervals(interval);
                 }
             }
 
