@@ -19,6 +19,10 @@ public class ProcessDataServiceI implements ProcessDataService{
     private static List<Interval> intervals=new CopyOnWriteArrayList<>();
     private static List<Interval> alreadyTraversedIntervals=new CopyOnWriteArrayList<>();
 
+    public List<Interval> getIntervals(){
+        return intervals;
+    }
+
     public void addIntervals(Interval newInterval){
         Map<String,Interval> addedInterval=null;
         boolean flag=false;
@@ -82,14 +86,17 @@ public class ProcessDataServiceI implements ProcessDataService{
             if((newInterval.getStart() >= existingInterval.getStart()) && (newInterval.getEnd() <= existingInterval.getEnd())){
 
                 Interval previousInterval=getExactPreviousInterval(existingInterval);
+                Interval updatedInterval=null;
 
-                Interval updatedInterval=new Interval();
-                updatedInterval.setStart(previousInterval.getStart());
+                if(previousInterval!=null) {
+                    updatedInterval=new Interval();
+                    updatedInterval.setStart(previousInterval.getStart());
 
-                if(existingInterval.getEnd() == newInterval.getEnd()){
-                    updatedInterval.setEnd(previousInterval.getEnd());
-                }else{
-                    updatedInterval.setEnd(existingInterval.getEnd());
+                    if (existingInterval.getEnd() == newInterval.getEnd()) {
+                        updatedInterval.setEnd(previousInterval.getEnd());
+                    } else {
+                        updatedInterval.setEnd(existingInterval.getEnd());
+                    }
                 }
 
                 resultantIntervals=new HashMap<>();
