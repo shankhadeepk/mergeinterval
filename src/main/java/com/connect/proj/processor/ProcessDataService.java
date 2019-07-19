@@ -12,4 +12,5 @@ public interface ProcessDataService {
     public Map<String, Interval> checkIntervalAndRemove(Interval newInterval);
     public Interval getExactPreviousInterval(Interval existingInterval);
     public Map<String,Interval> mergeTwoIntervals(Interval newInterval);
+    public void clearIntervals();
 }

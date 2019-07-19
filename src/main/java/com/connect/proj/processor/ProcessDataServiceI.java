@@ -19,8 +19,9 @@ public class ProcessDataServiceI implements ProcessDataService{
     private static List<Interval> intervals=new CopyOnWriteArrayList<>();
     private static List<Interval> alreadyTraversedIntervals=new CopyOnWriteArrayList<>();
 
-    public List<Interval> getIntervals(){
-        return intervals;
+    public void clearIntervals(){
+         intervals.clear();
+         alreadyTraversedIntervals.clear();
     }
 
     public void addIntervals(Interval newInterval){
