@@ -11,6 +11,8 @@ import org.junit.Test;
 import java.io.*;
 import java.util.Optional;
 
+import static org.junit.Assert.*;
+
 public class ProcessDataServiceTest {
 
     @Test
@@ -19,8 +21,15 @@ public class ProcessDataServiceTest {
         interval.setStart(1);
         interval.setEnd(20);
         ProcessDataService processDataService=new ProcessDataServiceI(7);
-        processDataService.addIntervals(interval);
+        assertTrue(processDataService.addIntervals(interval));
         processDataService.clearIntervals();
+    }
+
+    @Test
+    public void addEmptyInterval(){
+        Interval interval=null;
+        ProcessDataService processDataService=new ProcessDataServiceI(5);
+        assertFalse(processDataService.addIntervals(interval));
     }
 
     @Test
@@ -29,59 +38,42 @@ public class ProcessDataServiceTest {
         interval.setStart(1);
         interval.setEnd(20);
         ProcessDataService processDataService=new ProcessDataServiceI(7);
-        processDataService.addIntervals(interval);
-        processDataService.removeIntervals(interval);
+        assertTrue(processDataService.addIntervals(interval));
+        assertTrue(processDataService.removeIntervals(interval));
         processDataService.clearIntervals();
     }
 
     @Test
-    public void checkIntervalAndRemove() {
+    public void removeNonExistingInterval() {
+        Interval interval=new Interval();
+        interval.setStart(1);
+        interval.setEnd(20);
+        ProcessDataService processDataService=new ProcessDataServiceI(7);
+        assertTrue(processDataService.addIntervals(interval));
+
+        interval=new Interval();
+        interval.setStart(21);
+        interval.setEnd(30);
+        assertFalse(processDataService.removeIntervals(interval));
+        processDataService.clearIntervals();
     }
 
     @Test
-    public void getExactPreviousInterval() {
+    public void removeEmptyInterval(){
+        Interval interval=null;
+        ProcessDataService processDataService=new ProcessDataServiceI(7);
+        assertFalse(processDataService.removeIntervals(interval));
     }
 
     @Test
-    public void mergeTwoIntervals() {
+    public void readProblemStatementTestCasesAndProcess(){
+     FileProcessor fileProcessor=new FileProcessorI();
+     fileProcessor.processFile("problemStatementRecord.csv");
     }
 
     @Test
-    public void readFileAddIntervals(){
-        Reader in= null;
-        Record record=null;
-
-        ProcessDataService processDataService =null;
-        try {
-            in = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("record.csv")));
-            Iterable<CSVRecord> csvRecords= CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(in);
-            Optional<CSVRecord> csvRecord1=null;
-
-            for (CSVRecord csvRecord:csvRecords) {
-                csvRecord1 = Optional.ofNullable(csvRecord);
-                if (csvRecord1.isPresent()) {
-                    record = new Record();
-                    record.setTime(Integer.parseInt(csvRecord1.get().get(0)));
-                    record.setStart(Integer.parseInt(csvRecord1.get().get(1)));
-                    record.setEnd(Integer.parseInt(csvRecord1.get().get(2)));
-                    record.setAction(csvRecord1.get().get(3));
-
-                    System.out.println(record);
-                    Interval interval=new Interval(record.getStart(),record.getEnd());
-                    processDataService =new ProcessDataServiceI(7);
-
-                    if(AppConstant.ADDED.getAction().equalsIgnoreCase(record.getAction()))
-                        processDataService.addIntervals(interval);
-
-                    if(AppConstant.REMOVED.getAction().equalsIgnoreCase(record.getAction()))
-                        processDataService.removeIntervals(interval);
-                }
-            }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void removeAnotherIntervalAndCheck(){
+        FileProcessor fileProcessor=new FileProcessorI();
+        fileProcessor.processFile("record.csv");
     }
 }

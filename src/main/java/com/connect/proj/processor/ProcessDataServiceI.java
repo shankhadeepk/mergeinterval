@@ -24,62 +24,71 @@ public class ProcessDataServiceI implements ProcessDataService{
          alreadyTraversedIntervals.clear();
     }
 
-    public void addIntervals(Interval newInterval){
+    public boolean addIntervals(Interval newInterval){
         Map<String,Interval> addedInterval=null;
         boolean flag=false;
 
         int start=0;
         int end=0;
 
-        if(intervals.size()==0){
-            intervals.add(newInterval);
-        }else  {
-
-            addedInterval = mergeTwoIntervals(newInterval);
-
-            if (addedInterval != null) {
-                intervals.remove(addedInterval.get("E"));
-                intervals.add(addedInterval.get("U"));
-            } else {
+        if(newInterval!=null) {
+            if (intervals.size() == 0) {
                 intervals.add(newInterval);
+            } else {
+
+                addedInterval = mergeTwoIntervals(newInterval);
+
+                if (addedInterval != null) {
+                    intervals.remove(addedInterval.get("E"));
+                    intervals.add(addedInterval.get("U"));
+                } else {
+                    intervals.add(newInterval);
+                }
             }
+        }else {
+            return false;
         }
 
         System.out.println("Intervals as :");
         intervals.stream().forEach(System.out::println);
-        //tempIntervals.stream().forEach(System.out::println);/
+
+        return true;
     }
-    public void removeIntervals(Interval newInterval){
-        Map<String,Interval> addedInterval=null;
+    public boolean removeIntervals(Interval newInterval){
+        Map<String,Interval> changedInterval=null;
         boolean flag=false;
 
         int start=0;
         int end=0;
 
-        if(intervals.size()==0){
-            intervals.add(newInterval);
-        }else  {
-
-            addedInterval = checkIntervalAndRemove(newInterval);
-
-            if (addedInterval != null) {
-                intervals.remove(addedInterval.get("E"));
-                intervals.add(addedInterval.get("U"));
-            } else {
+        if(newInterval!=null) {
+            if (intervals.size() == 0) {
                 intervals.add(newInterval);
+            } else {
+
+                changedInterval = checkIntervalAndRemove(newInterval);
+
+                if (changedInterval != null) {
+                    intervals.remove(changedInterval.get("E"));
+                    intervals.add(changedInterval.get("U"));
+                } else {
+                    return false;
+                }
             }
+        }else {
+            return false;
         }
 
         System.out.println("Intervals as :");
         intervals.stream().forEach(System.out::println);
-        //tempIntervals.stream().forEach(System.out::println);/
+        return true;
     }
 
-    public Map<String, Interval> checkIntervalAndRemove(Interval newInterval) {
+    private Map<String, Interval> checkIntervalAndRemove(Interval newInterval) {
 
         Map<String,Interval> resultantIntervals=null;
-
         Iterator<Interval> intervalIterator=null;
+        Interval updatedInterval=null;
 
         for(intervalIterator=intervals.iterator();intervalIterator.hasNext();) {
             Interval existingInterval=intervalIterator.next();
@@ -87,7 +96,6 @@ public class ProcessDataServiceI implements ProcessDataService{
             if((newInterval.getStart() >= existingInterval.getStart()) && (newInterval.getEnd() <= existingInterval.getEnd())){
 
                 Interval previousInterval=getExactPreviousInterval(existingInterval);
-                Interval updatedInterval=null;
 
                 if(previousInterval!=null) {
                     updatedInterval=new Interval();
@@ -110,10 +118,8 @@ public class ProcessDataServiceI implements ProcessDataService{
         return null;
     }
 
-    public Interval getExactPreviousInterval(Interval existingInterval) {
+    private Interval getExactPreviousInterval(Interval existingInterval) {
         Interval preInterval=null;
-
-
         for(int i=alreadyTraversedIntervals.size() - 1;i >= 0; i--){
 
             preInterval=alreadyTraversedIntervals.get(i);
@@ -125,25 +131,23 @@ public class ProcessDataServiceI implements ProcessDataService{
         return null;
     }
 
-    public Map<String,Interval> mergeTwoIntervals(Interval newInterval){
+    private Map<String,Interval> mergeTwoIntervals(Interval newInterval){
 
         alreadyTraversedIntervals.add(newInterval);
 
         Map<String,Interval> resultantIntervals=null;
         Iterator<Interval> intervalIterator=null;
+        Interval updatedInterval =null;
 
 
         for(intervalIterator=intervals.iterator();intervalIterator.hasNext();) {
-
-           /* System.out.println("The interval list is:");
-            intervals.forEach(System.out::println);*/
             Interval existingInterval=intervalIterator.next();
             if ((Math.abs(newInterval.getEnd() - existingInterval.getStart()) <= this.mergeDistance)
                     || (Math.abs(existingInterval.getStart() - newInterval.getStart()) <= this.mergeDistance)
                     || (Math.abs(existingInterval.getEnd() - newInterval.getStart()) <= this.mergeDistance)
                     || ((existingInterval.getStart() < newInterval.getStart()) && (existingInterval.getEnd() > newInterval.getEnd()))) {
 
-                Interval updatedInterval = new Interval();
+                updatedInterval = new Interval();
 
                 if (newInterval.getStart() > existingInterval.getStart()) {
                     updatedInterval.setStart(existingInterval.getStart());
