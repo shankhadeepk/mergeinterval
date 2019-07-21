@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public class FileProcessorI implements FileProcessor {
     @Override
-    public void processFile(String fileName) {
+    public void processFile(String fileName,int mergeDistance) {
 
         Reader in= null;
         Record record=null;
@@ -33,13 +33,22 @@ public class FileProcessorI implements FileProcessor {
 
                     System.out.println(record);
                     Interval interval=new Interval(record.getStart(),record.getEnd());
-                    processDataService =new ProcessDataServiceI(7);
 
-                    if(AppConstant.ADDED.getAction().equalsIgnoreCase(record.getAction()))
-                        processDataService.addIntervals(interval);
 
-                    if(AppConstant.REMOVED.getAction().equalsIgnoreCase(record.getAction()))
-                        processDataService.removeIntervals(interval);
+                    if(AppConstant.ADDED.getAction().equalsIgnoreCase(record.getAction())) {
+                        processDataService=new AdditionIntervals(mergeDistance);
+                        processDataService.processSingleInterval(interval);
+                    }
+
+                    if(AppConstant.REMOVED.getAction().equalsIgnoreCase(record.getAction())) {
+                        processDataService=new RemovalIntervals(mergeDistance);
+                        processDataService.processSingleInterval(interval);
+                    }
+
+                    if(AppConstant.DELETED.getAction().equalsIgnoreCase(record.getAction())) {
+                        processDataService=new DeletionIntervals(mergeDistance);
+                        processDataService.processSingleInterval(interval);
+                    }
                 }
             }
 

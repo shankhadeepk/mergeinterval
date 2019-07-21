@@ -1,0 +1,4 @@
+ArrivalTime,Start,End,Action
+1,1,6,ADDED
+2,5,7,ADDED
+3,2,3,DELETED

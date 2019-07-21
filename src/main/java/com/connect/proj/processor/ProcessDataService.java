@@ -4,7 +4,5 @@ import com.connect.proj.model.Interval;
 
 public interface ProcessDataService {
 
-    public boolean addIntervals(Interval newInterval);
-    public boolean removeIntervals(Interval newInterval);
-    public void clearIntervals();
+    public boolean processSingleInterval(Interval newInterval);
 }

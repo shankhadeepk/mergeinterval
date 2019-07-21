@@ -3,7 +3,8 @@ package com.connect.proj;
 public enum AppConstant {
 
     ADDED("ADDED"),
-    REMOVED("REMOVED");
+    REMOVED("REMOVED"),
+    DELETED("DELETED");
 
     public String action;
 
