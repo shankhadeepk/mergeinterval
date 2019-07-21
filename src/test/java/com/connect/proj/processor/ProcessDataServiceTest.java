@@ -1,17 +1,11 @@
 package com.connect.proj.processor;
 
 
-import com.connect.proj.AppConstant;
 import com.connect.proj.model.Interval;
-import com.connect.proj.model.Record;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVRecord;
 import org.junit.Test;
 
-import java.io.*;
-import java.util.Optional;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class ProcessDataServiceTest {
 
