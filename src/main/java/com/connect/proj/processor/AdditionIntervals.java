@@ -7,6 +7,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+/*
+* AdditionIntervals is implementation for intervals which needs to be added to the list
+*
+*
+* */
 public class AdditionIntervals implements ProcessDataService {
 
     private int mergeDistance;

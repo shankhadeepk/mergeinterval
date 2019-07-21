@@ -9,6 +9,12 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.*;
 import java.util.Optional;
 
+/*
+*
+* Reads records from CSV file and decides Process (ADD,REMOVE or DELETE) according to records from the input csv.
+*
+*
+* */
 public class FileProcessorI implements FileProcessor {
     @Override
     public void processFile(String fileName,int mergeDistance) {

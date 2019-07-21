@@ -2,6 +2,11 @@ package com.connect.proj.model;
 
 import java.util.Objects;
 
+/*
+* Interval is a class which unit for each interval having (Start,End) limits.
+*
+*
+* */
 public class Interval {
     @Override
     public String toString() {

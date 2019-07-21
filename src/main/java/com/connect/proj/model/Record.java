@@ -1,5 +1,10 @@
 package com.connect.proj.model;
 
+/*
+* The Record class holds record as read from the csv files
+*
+*
+* */
 public class Record {
 
     private int time;

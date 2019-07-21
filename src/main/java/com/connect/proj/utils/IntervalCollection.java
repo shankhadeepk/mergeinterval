@@ -4,7 +4,11 @@ import com.connect.proj.model.Interval;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-
+/*
+*
+* IntervalCollection keeps the collections of intervals and already traversed intervals
+*
+* */
 public class IntervalCollection {
     public static List<Interval> getIntervals() {
         return intervals;

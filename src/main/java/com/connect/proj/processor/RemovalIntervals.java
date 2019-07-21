@@ -6,7 +6,12 @@ import com.connect.proj.utils.IntervalCollection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
+/*
+ *
+ * RemovalIntervals processes the intervals which needs to be removed from existing intervals
+ *
+ *
+ * */
 public class RemovalIntervals implements ProcessDataService {
 
     private int mergeDistance;

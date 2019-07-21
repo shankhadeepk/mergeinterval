@@ -5,6 +5,12 @@ import com.connect.proj.utils.IntervalCollection;
 
 import java.util.*;
 
+/*
+*
+* DeletionIntervals processes the intervals which needs to be deleted from existing intervals
+*
+*
+* */
 public class DeletionIntervals implements ProcessDataService {
 
     private int mergeDistance;
